@@ -1,0 +1,151 @@
+<head>
+<title>Bulb App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://unpkg.com/@tensorflow/tfjs"></script>
+	<script src="https://unpkg.com/@tensorflow/tfjs-automl"></script>
+<style>
+body {
+background-image:url("/static/g.jpg");
+font-family: "ProximaNovaBold";
+background-repeat: no-repeat;
+background-position:center;
+background-size: 100% 100%;
+}
+.hero-image {
+background-color: #cccccc;
+height: 300px;
+background-position:bottom-center;
+background-repeat:no-repeat;
+background-size: cover;
+position: relative;
+}
+.hero-text {
+text-align: center;
+position: absolute;
+top: 60%;
+left: 50%;
+transform: translate(-50%, -50%);
+color:#6E8A6D ;
+}
+h1
+{
+margin:0px;
+padding:10px;
+line-height:40px
+}
+
+
+h2
+{
+margin:0px;
+padding:0px;
+line-height:20px
+}
+
+h3
+{
+margin:0px;
+padding:0px;
+line-height:20px
+}
+
+
+h4{
+margin:0px;
+padding:10px;
+line-height:50px
+}
+
+input[type=file] {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: block;
+width: 200px;
+color: black;
+justify-content: center;
+align-items: center;
+text-align: center;
+box-sizing: border-box;
+border-style: solid white;
+border-width: 2px;
+border-radius: 2px;
+}
+input[type=submit] {
+width: 100%;
+border: none;
+outline: none;
+width: 200px;
+font-size: 1.5em;											e
+color: white;
+padding: 0px 0px;
+justify-content: center;
+align-items: center;
+text-align: center;
+background-color: #B0BDD3;
+}
+</style>
+</head>
+<body>
+	<div class="hero-text">
+<h1 style="font-size:50px">Bulb Classifier</h1>
+	<h2 style="font-size:20px"> The Bulb Classifier helps you identify the lighting in your space.</h2>
+	<h3 style="font-size:20px"> Remove light bulb from the fixture and take a picture.</h3>
+	<h4 style="font-size:20px"> Upload the picture of any light bulb and we'll find a match!</h4>
+	<p><input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+<div id="demobox"> <p> <label for="file" style="cursor: pointer;">Upload your image</label></p></div> 
+<style>
+#demobox {
+border: no-border;
+  background-color: #98D8CD;
+  color: white;
+  line-height:45px;
+  width: 160px;
+  height: 50px;
+  margin-left:200px;
+  padding:0px
+  display: block;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer; /* Add a pointer cursor on mouse-over */
+}
+
+
+  margin-left:200px;
+  padding:0px
+  display: block;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer; /* Add a pointer cursor on mouse-over */
+}
+}
+</style>
+<p><img id="output" width="200" /></p>
+<div class="result" id="result">
+
+</div>
+</div>
+
+<script>
+var loadFile = function(event) {
+	var image = document.getElementById('output');
+	image.src = URL.createObjectURL(event.target.files[0]);
+run();
+};
+async function run() {
+  		const model = await tf.automl.loadImageClassification('model.json');
+  		const image = document.getElementById('output');
+  		const predictions = await model.classify(image);
+		//const predictions = predictions.sort(function(a, b){return a-b});
+  		console.log(predictions);
+
+  		// Show the resulting object on the page.
+		const pre = document.getElementById('result');
+  		pre.textContent = JSON.stringify(predictions, null, 2);;
+		
+
+				}
+	
+
+</script>
+<body>
